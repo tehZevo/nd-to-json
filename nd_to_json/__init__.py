@@ -20,7 +20,7 @@ def nd_to_json(r, method="orjson"):
 
 def json_to_nd(r, method="orjson"):
   if method == "orjson":
-    return orjson.loads(r)
+    return np.array(orjson.loads(r))
   if method == "np_save":
     b = r.encode('utf8')
     b = base64.decodebytes(b)
