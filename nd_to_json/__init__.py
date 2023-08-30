@@ -15,8 +15,10 @@ def nd_to_json(r, method="orjson"):
     b = base64.encodebytes(b)
     b = b.decode('utf8')
     return b
-  #plain method
-  return {"data": r.flatten().tolist(), "shape": r.shape}
+  if method =="flat":
+    return {"data": r.flatten().tolist(), "shape": r.shape}
+  #plain method (inferred shape)
+  return r.tolist()
 
 def json_to_nd(r, method="orjson"):
   if method == "orjson":
@@ -27,5 +29,7 @@ def json_to_nd(r, method="orjson"):
     b = io.BytesIO(b)
     b = np.load(b)
     return b
-  #plain method
-  return np.reshape(r["data"], r["shape"])
+  if method == "flat":
+    return np.reshape(r["data"], r["shape"])
+  #plain method (inferred shape)
+  return np.array(r)
